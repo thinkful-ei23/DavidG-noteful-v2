@@ -8,6 +8,7 @@ const { PORT } = require('./config');
 
 const notesRouter = require('./routes/notes');
 const foldersRouter = require('./routes/folders');
+const tagsRouter = require('./routes/tags');
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(express.json());
 
 app.use('/api/notes', notesRouter);
 app.use('/api/folders', foldersRouter);
+app.use('/api/tags', tagsRouter);
 
 
 app.use((req, res, next) => {
