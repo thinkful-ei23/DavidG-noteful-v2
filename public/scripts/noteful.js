@@ -31,9 +31,6 @@ const noteful = (function () {
     });
   }
 
-  /**
-   * GENERATE HTML FUNCTIONS
-   */
   function generateNotesList(list, currNote) {
     const listItems = list.map(item => `
       <li data-id="${item.id}" class="js-note-element ${currNote.id === item.id ? 'active' : ''}">
@@ -86,9 +83,6 @@ const noteful = (function () {
     return notes.join('');
   }
 
-  /**
-   * HELPERS
-   */
   function getNoteIdFromElement(item) {
     const id = $(item).closest('.js-note-element').data('id');
     return id;
@@ -108,9 +102,6 @@ const noteful = (function () {
     return tags ? tags.map(tag => tag.name).join(', ') : '';
   }
 
-  /**
-   * NOTES EVENT LISTENERS AND HANDLERS
-   */
   function handleNoteItemClick() {
     $('.js-notes-list').on('click', '.js-note-link', event => {
       event.preventDefault();
@@ -204,9 +195,6 @@ const noteful = (function () {
     });
   }
 
-  /**
-   * FOLDERS EVENT LISTENERS AND HANDLERS
-   */
   function handleFolderClick() {
     $('.js-folders-list').on('click', '.js-folder-link', event => {
       event.preventDefault();
@@ -217,12 +205,11 @@ const noteful = (function () {
         store.currentNote = {};
       }
 
-      console.info('Get notes by folderId, coming soon...');
-      // api.search('/api/notes', store.currentQuery)
-      //   .then(response => {
-      //     store.notes = response;
-      //     render();
-      //   });
+      api.search('/api/notes', store.currentQuery)
+        .then(response => {
+          store.notes = response;
+          render();
+        });
     });
   }
 
@@ -232,17 +219,16 @@ const noteful = (function () {
 
       const newFolderName = $('.js-new-folder-entry').val();
 
-      console.info('Create a folder, coming soon...');
-      // api.create('/api/folders', { name: newFolderName })
-      //   .then(() => {
-      //     $('.js-new-folder-entry').val();
-      //     return api.search('/api/folders');
-      //   }).then(response => {
-      //     store.folders = response;
-      //     render();
-      //   }).catch(err => {
-      //     $('.js-error-message').text(err.responseJSON.message);
-      //   });
+      api.create('/api/folders', { name: newFolderName })
+        .then(() => {
+          $('.js-new-folder-entry').val();
+          return api.search('/api/folders');
+        }).then(response => {
+          store.folders = response;
+          render();
+        }).catch(err => {
+          $('.js-error-message').text(err.responseJSON.message);
+        });
     });
   }
 
@@ -258,21 +244,17 @@ const noteful = (function () {
         store.currentNote = {};
       }
 
-      console.info('Delete a folder, coming soon...');
-      // api.remove(`/api/folders/${folderId}`)
-      //   .then(() => {
-      //     return api.search('/api/folders');
-      //   })
-      //   .then(response => {
-      //     store.folders = response;
-      //     render();
-      //   });
+      api.remove(`/api/folders/${folderId}`)
+        .then(() => {
+          return api.search('/api/folders');
+        })
+        .then(response => {
+          store.folders = response;
+          render();
+        });
     });
   }
 
-  /**
-   * TAGS EVENT LISTENERS AND HANDLERS
-   */
   function handleTagClick() {
     $('.js-tags-list').on('click', '.js-tag-link', event => {
       event.preventDefault();
@@ -282,12 +264,6 @@ const noteful = (function () {
 
       store.currentNote = {};
 
-      console.info('Get notes by tagId, coming soon...');
-      // api.search('/api/notes', store.currentQuery)
-      //   .then(response => {
-      //     store.notes = response;
-      //     render();
-      //   });
     });
   }
 
@@ -297,17 +273,6 @@ const noteful = (function () {
 
       const newTagName = $('.js-new-tag-entry').val();
 
-      console.info('Create a tag, coming soon...');
-      // api.create('/api/tags', { name: newTagName })
-      //   .then(() => {
-      //     return api.search('/api/tags');
-      //   }).then(response => {
-      //     store.tags = response;
-      //     render();
-      //   })
-      //   .catch(err => {
-      //     console.error(err);
-      //   });
     });
   }
 
@@ -321,20 +286,6 @@ const noteful = (function () {
       }
 
       store.currentNote = {};
-
-      console.info('Delete a tag, coming soon...');
-      // api.remove(`/api/tags/${tagId}`)
-      //   .then(() => {
-      //     return api.search('/api/tags');
-      //   })
-      //   .then(response => {
-      //     store.tags = response;
-      //     return api.search('/api/notes', store.currentQuery);
-      //   })
-      //   .then(response => {
-      //     store.notes = response;
-      //     render();
-      //   });
     });
   }
 
